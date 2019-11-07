@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
+    "start": "npm run build-client && node index.js",
+    "dev": "npm run dev-client & nodemon index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
+    "build-client": "npm run clean && parcel build client/src/index.html --out-dir client/dist",
+    "dev-client": "parcel client/src/index.html --out-dir client/dist",
+    "clean": "rm -rf .cache client/dist"
   },
   "jest": {
     "testEnvironment": "node"
@@ -15,15 +18,21 @@
   "author": "Yo",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "core-js": "^3.4.0",
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "regenerator-runtime": "^0.13.3"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "elliptic": "^6.5.1",
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "uuid": "^3.3.3"

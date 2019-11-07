@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const path = require('path');
 const Blockchain = require('./blockchain/blockchain.js');
 const TransactionPool = require('./wallet/transaction-pool.js');
 const Wallet = require('./wallet/wallet.js');
@@ -9,6 +10,7 @@ const PubSub = require('./app/pubsub.js');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
@@ -80,6 +82,10 @@ app.get('/api/wallet-info', (req, res) => {
     });
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
+
 const syncWithRootNode = () => {
     request(
         { url: `${ROOT_NODE_ADDRESS}/api/blocks` },
@@ -107,6 +113,55 @@ const syncWithRootNode = () => {
         },
     );
 };
+
+// Generate some dummy blocks
+const walletFoo = new Wallet();
+const walletBar = new Wallet();
+
+function generateWalletTransaction({ wallet, recipient, amount }){
+    const transaction = wallet.createTransaction({
+        recipient,
+        amount,
+        chain: blockchain.chain,
+    });
+
+    transactionPool.setTransaction(transaction);
+}
+
+const walletAction = () => generateWalletTransaction({
+    wallet,
+    recipient: walletFoo.publicKey,
+    amount: 5,
+});
+
+const walletFooAction = () => generateWalletTransaction({
+    wallet: walletFoo,
+    recipient: walletBar.publicKey,
+    amount: 10,
+});
+
+const walletBarAction = () => generateWalletTransaction({
+    wallet: walletBar,
+    recipient: wallet.publicKey,
+    amount: 15,
+});
+
+for(let i = 0; i < 10; i++){
+    if(i % 3 === 0){
+        walletAction();
+        walletFooAction();
+    } else if(i % 3 === 1){
+        walletAction();
+        walletBarAction();
+    } else{
+        walletFooAction();
+        walletBarAction();
+    }
+
+    transactionMiner.mineTransactions();
+}
+// End generate some dummy blocks
+
 
 let PEER_PORT;
 if(process.env.GENERATE_PEER_PORT === 'true'){
