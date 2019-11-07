@@ -1,0 +1,31 @@
+{
+  "name": "blockchainjs",
+  "version": "1.0.0",
+  "description": "A blockchain implementaion written in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "author": "Yo",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "elliptic": "^6.5.1",
+    "express": "^4.17.1",
+    "hex-to-binary": "^1.0.1",
+    "redis": "^2.8.0",
+    "request": "^2.88.0",
+    "uuid": "^3.3.3"
+  }
+}
