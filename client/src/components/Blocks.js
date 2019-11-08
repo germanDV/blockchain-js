@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Block from './Block';
 
 const Blocks = () => {
     const [blocks, setBlocks] = useState([]);
@@ -16,13 +17,15 @@ const Blocks = () => {
         fetchData();
     }, []);
 
+    if(blocks.length === 0){
+        return <div><em>loading blocks...</em></div>;
+    }
+
     return (
         <div>
             <h3>Blocks</h3>
             {blocks.map(block => (
-                <div key={block.hash}>
-                    {block.hash}
-                </div>
+                <Block key={block.hash} block={block} />
             ))}
         </div>
     );

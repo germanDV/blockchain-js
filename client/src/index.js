@@ -7,6 +7,9 @@ import { render } from 'react-dom';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+// Styles
+import './index.css';
+
 // Components
 import App from './components/App';
 
