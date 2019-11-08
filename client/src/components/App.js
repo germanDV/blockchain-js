@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Blocks from './Blocks';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
     useEffect(() => {
         async function fetchData(){
             try{
-                const resp = await fetch('http://localhost:4000/api/wallet-info');
+                const resp = await fetch(`${document.location.origin}/api/wallet-info`);
                 const data = await resp.json();
                 setWalletInfo(data);
             } catch(err){
@@ -25,12 +25,20 @@ const App = () => {
             <br />
             <h1>Welcome to BlockchainJS</h1>
             <br />
+            <div>
+                <Link to='/blocks'>Blocks</Link>
+            </div>
+            <div>
+                <Link to='/transfer'>Transfer</Link>
+            </div>
+            <div>
+                <Link to='/pool'>Transaction Pool</Link>
+            </div>
+            <br />
             <div className='WalletInfo'>
                 <div>Address: {walletInfo.address}</div>
                 <div>Balance: {walletInfo.balance}</div>
             </div>
-            <br />
-            <Blocks />
         </div>
     );
 };
