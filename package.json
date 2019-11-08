@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "start": "npm run build-client && node index.js",
-    "dev": "npm run dev-client & nodemon index.js",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
+    "start": "npm run build-client & node index.js",
+    "start-root": "node index.js",
+    "start-peer": "cross-env GENERATE_PEER_PORT='true' node index.js",
+    "dev": "npm run dev-client &  cross-env ENV='development' nodemon index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' ENV='development' nodemon index.js",
     "build-client": "npm run clean && parcel build client/src/index.html --out-dir client/dist",
     "dev-client": "parcel client/src/index.html --out-dir client/dist",
     "clean": "rm -rf .cache client/dist"
@@ -18,15 +20,13 @@
   "author": "Yo",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "core-js": "^3.4.0",
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
-    "nodemon": "^1.19.4",
-    "react-bootstrap": "^1.0.0-beta.14",
-    "regenerator-runtime": "^0.13.3"
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
+    "@babel/core": "^7.7.2",
+    "core-js": "^3.4.0",
     "body-parser": "^1.19.0",
     "elliptic": "^6.5.1",
     "express": "^4.17.1",
@@ -36,6 +36,8 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "redis": "^2.8.0",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "regenerator-runtime": "^0.13.3",
     "request": "^2.88.0",
     "uuid": "^3.3.3"
   }

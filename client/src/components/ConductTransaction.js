@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const ConductTransaction = (props) => {
     const [recipient, setRecipient] = useState('');
     const [amount, setAmount] = useState(0);
+    const [knownAddresses, setKnownAddresses] = useState([]);
+
+    useEffect(() => {
+        async function fetchData(){
+            try{
+                const resp = await fetch(`${document.location.origin}/api/known-addresses`);
+                const data = await resp.json();
+                setKnownAddresses(data);
+            } catch(err){
+                console.log(err);
+            }
+        }
+        fetchData();
+    }, []);
 
     const conductTransaction = async() => {
         try{
@@ -28,6 +42,15 @@ const ConductTransaction = (props) => {
         <div className='ConductTransaction'>
             <Link to='/'>Home</Link>
             <h3>Make a Transaction</h3>
+            <br />
+            <h4>Known Addresses</h4>
+            {knownAddresses.map(addr => (
+                <div key={addr}>
+                    <div>{addr}</div>
+                    <br />
+                </div>
+            ))}
+            <br />
             <FormGroup>
                 <FormControl
                     input='text'

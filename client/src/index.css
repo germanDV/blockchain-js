@@ -31,7 +31,7 @@ body {
   width: 700px;
   border: 1px solid #fff;
   padding: 5%;
-  margin: 2%;
+  margin: 2% auto;
 }
 
 .Transaction {

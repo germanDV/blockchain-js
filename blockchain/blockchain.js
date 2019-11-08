@@ -54,7 +54,7 @@ class Blockchain{
         }
 
         if(onSuccess) onSuccess();
-        console.log('Replacing chain with', chain);
+        console.log('Replacing chain');
         this.chain = chain;
     }
 
